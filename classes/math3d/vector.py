@@ -1,7 +1,7 @@
 import math
 
 
-class Vec3:
+class Vector:
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
@@ -10,13 +10,13 @@ class Vec3:
     # --- basic vector arithmetic ---
 
     def add(self, other):
-        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
+        return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
 
     def sub(self, other):
-        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
+        return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
 
     def mul(self, k):
-        return Vec3(self.x * k, self.y * k, self.z * k)
+        return Vector(self.x * k, self.y * k, self.z * k)
 
     # --- dot product ---
 
@@ -33,10 +33,10 @@ class Vec3:
     def normalize(self):
         l = self.length()
         if l == 0:
-            return Vec3(0, 0, 0)
-        return Vec3(self.x / l, self.y / l, self.z / l)
+            return Vector(0, 0, 0)
+        return Vector(self.x / l, self.y / l, self.z / l)
 
     # --- helper to print vectors nicely ---
 
     def __repr__(self):
-        return f"Vec3({self.x}, {self.y}, {self.z})"
+        return f"Vector({self.x}, {self.y}, {self.z})"
