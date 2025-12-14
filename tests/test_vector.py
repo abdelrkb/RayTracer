@@ -1,4 +1,4 @@
-from math3d.vector import Vec3
+from math3d.vec3 import Vec3
 import math
 
 def test_vector():
