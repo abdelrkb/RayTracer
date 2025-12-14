@@ -1,5 +1,5 @@
 from canvas import Canvas
-from math3d.vector import Vector
+from classes.math3d.vector import Vector
 
 class Viewport:
     def __init__(self,width,height,distance):
