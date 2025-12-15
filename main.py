@@ -6,9 +6,7 @@ from classes.render.tracer import Tracer
 from classes.objects.sphere import Sphere
 
 
-# --------------------------------------------------
-# Configuration globale (Gambetta)
-# --------------------------------------------------
+#config gambetta
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -20,9 +18,7 @@ PROJECTION_PLANE_D = 1
 BACKGROUND_COLOR = (255, 255, 255)
 
 
-# --------------------------------------------------
-# Scène (exactement celle du livre)
-# --------------------------------------------------
+#scene
 
 spheres = [
     Sphere(Vector(0, -1, 3), 1, (255, 0, 0)),   # Rouge
@@ -31,19 +27,14 @@ spheres = [
 ]
 
 
-# --------------------------------------------------
-# Initialisation des composants
-# --------------------------------------------------
+#composants
 
 canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
 camera = Camera(Vector(0, 0, 0), viewport)
 tracer = Tracer(spheres, BACKGROUND_COLOR)
 
-
-# --------------------------------------------------
-# Boucle principale de rendu (Listing 2-2)
-# --------------------------------------------------
+#boucle
 
 for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
     for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
@@ -53,10 +44,7 @@ for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
         canvas.put_pixel(x, y, color)
 
 
-# --------------------------------------------------
-# Sauvegarde de l'image (PPM)
-# --------------------------------------------------
-
+#image ppm
 def save_ppm(canvas, filename="output.ppm"):
     with open(filename, "w") as f:
         f.write(f"P3\n{canvas.width} {canvas.height}\n255\n")
@@ -67,5 +55,3 @@ def save_ppm(canvas, filename="output.ppm"):
 
 
 save_ppm(canvas)
-
-print("Rendering finished. Image saved as output.ppm")
