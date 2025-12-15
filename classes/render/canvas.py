@@ -8,7 +8,7 @@ class Canvas:
     def put_pixel(self, x, y, color): 
 
         canvas_x = x + self.width//2
-        canvas_y = y + self.height//(2-y-1)
+        canvas_y = self.height // 2 - y - 1
 
         if 0 <= canvas_x < self.width and 0 <= canvas_y < self.height :
-            self.pixels[canvas_x][canvas_y] = color
+            self.pixels[canvas_y][canvas_x] = color
