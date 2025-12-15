@@ -1,4 +1,4 @@
-from canvas import Canvas
+from classes.render.canvas import Canvas
 from classes.math3d.vector import Vector
 
 class Viewport:

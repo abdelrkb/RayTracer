@@ -1,1 +1,6 @@
 /.venv
+output.ppm
+
+classes/math3d/__pycache__
+classes/objects/__pycache__
+classes/render/__pycache__
