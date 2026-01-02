@@ -4,6 +4,7 @@ from classes.render.viewport import Viewport
 from classes.render.camera import Camera
 from classes.render.tracer import Tracer
 from classes.objects.sphere import Sphere
+from classes.render.light import AmbientLight, PointLight, DirectionalLight
 
 
 #config gambetta
@@ -21,9 +22,16 @@ BACKGROUND_COLOR = (255, 255, 255)
 #scene
 
 spheres = [
-    Sphere(Vector(0, -1, 3), 1, (255, 0, 0)),   # Rouge
-    Sphere(Vector(2, 0, 4), 1, (0, 0, 255)),    # Bleu
-    Sphere(Vector(-2, 0, 4), 1, (0, 255, 0)),   # Vert
+    Sphere(Vector(0, -1, 3), 1, (255, 0, 0), specular=500),   # Rouge
+    Sphere(Vector(2, 0, 4), 1, (0, 0, 255), specular=500),    # Bleu
+    Sphere(Vector(-2, 0, 4), 1, (0, 255, 0), specular=10),   # Vert
+    Sphere(Vector(0, -5001, 0), 5000, (255, 255, 0), specular=1000), #Sphere jaune "sol"
+]
+
+lights = [
+    AmbientLight(0.2),
+    PointLight(0.6, Vector(2, 1, 0),),
+    DirectionalLight(0.2, Vector(1, 4, 4)),
 ]
 
 
@@ -32,7 +40,7 @@ spheres = [
 canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
 camera = Camera(Vector(0, 0, 0), viewport)
-tracer = Tracer(spheres, BACKGROUND_COLOR)
+tracer = Tracer(spheres,lights, BACKGROUND_COLOR)
 
 #boucle
 
