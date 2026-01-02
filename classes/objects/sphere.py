@@ -2,10 +2,11 @@ from classes.math3d.ray import Ray
 import math
 
 class Sphere:
-    def __init__(self, center, radius, color):
+    def __init__(self, center, radius, color, specular= -1):
         self.center = center
         self.radius = radius
         self.color = color
+        self.specular = specular
 
 
     def intersect_ray_sphere(self, ray: Ray):
