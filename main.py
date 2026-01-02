@@ -5,6 +5,7 @@ from classes.render.camera import Camera
 from classes.render.tracer import Tracer
 from classes.objects.sphere import Sphere
 from classes.render.light import AmbientLight, PointLight, DirectionalLight
+from classes.objects.color import Color
 
 
 #config gambetta
@@ -16,16 +17,16 @@ VIEWPORT_WIDTH = 1
 VIEWPORT_HEIGHT = 1
 PROJECTION_PLANE_D = 1
 
-BACKGROUND_COLOR = (255, 255, 255)
+BACKGROUND_COLOR = Color(255, 255, 255)
 
 
 #scene
 
 spheres = [
-    Sphere(Vector(0, -1, 3), 1, (255, 0, 0), specular=500),   # Rouge
-    Sphere(Vector(2, 0, 4), 1, (0, 0, 255), specular=500),    # Bleu
-    Sphere(Vector(-2, 0, 4), 1, (0, 255, 0), specular=10),   # Vert
-    Sphere(Vector(0, -5001, 0), 5000, (255, 255, 0), specular=1000), #Sphere jaune "sol"
+    Sphere(Vector(0, -1, 3), 1, Color(255, 0, 0), specular=500),   # Rouge
+    Sphere(Vector(2, 0, 4), 1, Color(0, 0, 255), specular=500),    # Bleu
+    Sphere(Vector(-2, 0, 4), 1, Color(0, 255, 0), specular=10),   # Vert
+    Sphere(Vector(0, -5001, 0), 5000, Color(255, 255, 0), specular=1000), #Sphere jaune "sol"
 ]
 
 lights = [
