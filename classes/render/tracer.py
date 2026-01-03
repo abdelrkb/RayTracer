@@ -58,7 +58,7 @@ class Tracer:
 
         return closest_sphere, closest_t
 
-    def trace_ray(self, ray: Ray, t_min: float, t_max: float) -> tuple[int, int, int]:
+    def trace_ray(self, ray: Ray, t_min: float, t_max: float, depth: int) -> tuple[int, int, int]:
         """
         Trace a ray into the scene and compute its color.
 
@@ -66,6 +66,7 @@ class Tracer:
             ray (Ray): ray to trace
             t_min (float): minimum valid t value
             t_max (float): maximum valid t value
+            depth (int) : remaining recursion depth for reflections
 
         Returns:
             tuple[int, int, int]: final RGB color
@@ -73,10 +74,19 @@ class Tracer:
         closest_sphere, closest_t = self.closest_intersection(ray.origin,ray.direction,t_min,t_max)
         if closest_sphere is None:
             return self.background_color.to_rgb()
-        
+
         P = ray.point_at(closest_t)
         N = P.sub(closest_sphere.center).normalize()
         V = ray.direction.mul(-1)
         lighting = compute_lighting(P,N,V, closest_sphere.specular, self.lights, self)
         color = closest_sphere.color.mul(lighting)
+        r = closest_sphere.reflective
+        if depth <= 0 or r <= 0:
+            return color.to_rgb()
+
+        reflected_direction = N.mul(2 * N.dot(V)).sub(V)
+        reflected_ray = Ray(P, reflected_direction)
+        reflected_color = Color(*self.trace_ray(reflected_ray, 0.001, float('inf'), depth - 1))
+
+        color = color.mul(1 - r).add(reflected_color.mul(r))
         return color.to_rgb()
