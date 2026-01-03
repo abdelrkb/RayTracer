@@ -8,7 +8,7 @@ class Sphere:
     """
     Represents a sphere in the scene.
     """
-    def __init__(self, center : Vector, radius : float, color : Color , specular= -1):
+    def __init__(self, center : Vector, radius : float, color : Color , specular= -1, reflective=0.0):
         """
         Create a sphere.
 
@@ -22,6 +22,7 @@ class Sphere:
         self.radius = radius
         self.color = color
         self.specular = specular
+        self.reflective = reflective
 
 
     def intersect_ray_sphere(self, ray: Ray) -> tuple[float,float]:

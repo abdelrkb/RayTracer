@@ -19,14 +19,16 @@ PROJECTION_PLANE_D = 1
 
 BACKGROUND_COLOR = Color(255, 255, 255)
 
+RECURSION_DEPTH = 3
+
 
 #scene
 
 spheres = [
-    Sphere(Vector(0, -1, 3), 1, Color(255, 0, 0), specular=500),   # Rouge
-    Sphere(Vector(2, 0, 4), 1, Color(0, 0, 255), specular=500),    # Bleu
-    Sphere(Vector(-2, 0, 4), 1, Color(0, 255, 0), specular=10),   # Vert
-    Sphere(Vector(0, -5001, 0), 5000, Color(255, 255, 0), specular=1000), #Sphere jaune "sol"
+    Sphere(Vector(0, -1, 3), 1, Color(255, 0, 0), specular=500, reflective=0.2),   # Rouge
+    Sphere(Vector(2, 0, 4), 1, Color(0, 0, 255), specular=500, reflective=0.3 ),    # Bleu
+    Sphere(Vector(-2, 0, 4), 1, Color(0, 255, 0), specular=10, reflective=0.4),   # Vert
+    Sphere(Vector(0, -5001, 0), 5000, Color(255, 255, 0), specular=1000, reflective=0.5), #Sphere jaune "sol"
 ]
 
 lights = [
@@ -49,7 +51,7 @@ for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
     for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
 
         ray = camera.get_ray(canvas, x, y)
-        color = tracer.trace_ray(ray, t_min=1, t_max=float('inf'))
+        color = tracer.trace_ray(ray, t_min=1, t_max=float('inf'),depth=RECURSION_DEPTH)
         canvas.put_pixel(x, y, color)
 
 
