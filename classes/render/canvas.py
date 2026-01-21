@@ -27,11 +27,11 @@ class Canvas:
         Sets the color of a pixel in the canvas.
 
         Args:
-            x (int): x coordinate
-            y (int): y coordinate
+            x (int): x coordinate -400 becomes 0, 0 becomes 400, 399 becomes 799
+            y (int): y coordinate # Inversion Y + conversion
             color( tuple[int, int, int]): RGB color (0-255)
         """
-        canvas_x = x + self.width//2
+        canvas_x = x + self.width//2 
         canvas_y = self.height // 2 - y - 1
 
         if 0 <= canvas_x < self.width and 0 <= canvas_y < self.height :

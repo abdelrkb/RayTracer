@@ -34,8 +34,8 @@ class Viewport:
         Returns:
             Vector: point on the viewport in world space
         """
-        viewport_x = x * self.width / canvas.width
-        viewport_y = y * self.height / canvas.height
-        viewport_z = self.distance
+        viewport_x = x * self.width / canvas.width # Vx = Cx · (Vw / Cw)
+        viewport_y = y * self.height / canvas.height # Vy = Cy · (Vh / Ch)
+        viewport_z = self.distance # Vz = d
 
         return Vector(viewport_x, viewport_y, viewport_z)

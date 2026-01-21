@@ -3,14 +3,10 @@ import math
 import imageio.v2 as imageio
 from datetime import datetime
 
-from classes.math3d.vector import Vector
 from classes.render.canvas import Canvas
 from classes.render.viewport import Viewport
 from classes.render.camera import Camera
 from classes.render.tracer import Tracer
-from classes.objects.sphere import Sphere
-from classes.render.light import AmbientLight, PointLight, DirectionalLight
-from classes.objects.color import Color
 from scene_loader import load_scene_file, choose_scene
 
 # Et les maths 3D c'est pas facile
@@ -53,8 +49,8 @@ if not gif_enabled:
     tracer = Tracer(scene["spheres"], scene["lights"])
 
     # Boucle pour chaque pixel, c'est long mais nécessaire
-    for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
-        for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
+    for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2): # x va de -400 à 399 (400 valeurs)
+        for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2): # y va de -300 à 299 (300 valeurs)
             ray = camera.get_ray(canvas, x, y)
             color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
             canvas.put_pixel(x, y, color)
