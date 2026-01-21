@@ -1,3 +1,5 @@
+GIF = FALSE
+
 #convention
 #sphere x y z radius R G B specular reflective
 #point intensity x y z

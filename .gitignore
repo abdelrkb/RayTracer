@@ -6,3 +6,6 @@ classes/objects/__pycache__
 classes/render/__pycache__
 
 __pycache__
+
+frames/
+outputs/dated/

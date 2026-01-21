@@ -1,0 +1,93 @@
+GIF=TRUE
+SCENES=5
+
+#convention
+#sphere x y z radius R G B specular reflective
+#point intensity x y z
+#directional intensity dx dy dz
+#ambient intensity
+
+--- SCENE 0 ---
+camera 0 0 0
+
+ambient 0.3
+point 0.8 3 2 5
+directional 0.3 -1 -2 1
+
+sphere 0 -5001 0 5000 100 100 120 1000 0.4
+sphere -5001 0 0 5000 180 100 100 800 0.3
+sphere 5001 0 0 5000 100 180 100 800 0.3
+sphere 0 0 5020 5000 120 120 180 800 0.2
+sphere 0 5001 0 5000 150 150 150 1000 0.3
+
+sphere -2 -1 8 1 255 50 50 500 0.5
+sphere 0 0 6 0.8 50 255 50 600 0.4
+sphere 2 1 7 1.2 50 50 255 400 0.6
+
+--- SCENE 1 ---
+camera 0 0 0
+
+ambient 0.3
+point 0.8 3 2 5
+directional 0.3 -1 -2 1
+
+sphere 0 -5001 0 5000 100 100 120 1000 0.4
+sphere -5001 0 0 5000 180 100 100 800 0.3
+sphere 5001 0 0 5000 100 180 100 800 0.3
+sphere 0 0 5020 5000 120 120 180 800 0.2
+sphere 0 5001 0 5000 150 150 150 1000 0.3
+
+sphere -1.5 -0.8 7.5 1 255 50 50 500 0.5
+sphere 0.5 0.2 6.5 0.8 50 255 50 600 0.4
+sphere 1.5 0.8 7.5 1.2 50 50 255 400 0.6
+
+--- SCENE 2 ---
+camera 0 0 0
+
+ambient 0.3
+point 0.8 3 2 5
+directional 0.3 -1 -2 1
+
+sphere 0 -5001 0 5000 100 100 120 1000 0.4
+sphere -5001 0 0 5000 180 100 100 800 0.3
+sphere 5001 0 0 5000 100 180 100 800 0.3
+sphere 0 0 5020 5000 120 120 180 800 0.2
+sphere 0 5001 0 5000 150 150 150 1000 0.3
+
+sphere -1 -0.5 7 1 255 50 50 500 0.5
+sphere 1 0.4 7 0.8 50 255 50 600 0.4
+sphere 1 0.5 8 1.2 50 50 255 400 0.6
+
+--- SCENE 3 ---
+camera 0 0 0
+
+ambient 0.3
+point 0.8 3 2 5
+directional 0.3 -1 -2 1
+
+sphere 0 -5001 0 5000 100 100 120 1000 0.4
+sphere -5001 0 0 5000 180 100 100 800 0.3
+sphere 5001 0 0 5000 100 180 100 800 0.3
+sphere 0 0 5020 5000 120 120 180 800 0.2
+sphere 0 5001 0 5000 150 150 150 1000 0.3
+
+sphere -0.5 -0.2 6.5 1 255 50 50 500 0.5
+sphere 1.5 0.6 7.5 0.8 50 255 50 600 0.4
+sphere 0.5 0.2 8.5 1.2 50 50 255 400 0.6
+
+--- SCENE 4 ---
+camera 0 0 0
+
+ambient 0.3
+point 0.8 3 2 5
+directional 0.3 -1 -2 1
+
+sphere 0 -5001 0 5000 100 100 120 1000 0.4
+sphere -5001 0 0 5000 180 100 100 800 0.3
+sphere 5001 0 0 5000 100 180 100 800 0.3
+sphere 0 0 5020 5000 120 120 180 800 0.2
+sphere 0 5001 0 5000 150 150 150 1000 0.3
+
+sphere 0 0 6 1 255 50 50 500 0.5
+sphere 2 0.8 8 0.8 50 255 50 600 0.4
+sphere 0 -0.1 9 1.2 50 50 255 400 0.6

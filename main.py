@@ -1,3 +1,8 @@
+import os
+import math
+import imageio.v2 as imageio
+from datetime import datetime
+
 from classes.math3d.vector import Vector
 from classes.render.canvas import Canvas
 from classes.render.viewport import Viewport
@@ -6,9 +11,13 @@ from classes.render.tracer import Tracer
 from classes.objects.sphere import Sphere
 from classes.render.light import AmbientLight, PointLight, DirectionalLight
 from classes.objects.color import Color
+from scene_loader import load_scene_file, choose_scene
 
+# Et les maths 3D c'est pas facile
 
-#config gambetta
+# =====================
+# CONFIG
+# =====================
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 600
@@ -17,52 +26,80 @@ VIEWPORT_WIDTH = 1
 VIEWPORT_HEIGHT = 1
 PROJECTION_PLANE_D = 1
 
-BACKGROUND_COLOR = Color(255, 255, 255)
-
 RECURSION_DEPTH = 3
 
+SCENE_TO_RENDER = choose_scene("scenes")
 
-#scene
-
-spheres = [
-    Sphere(Vector(0, -1, 3), 1, Color(255, 0, 0), specular=500, reflective=0.2),   # Rouge
-    Sphere(Vector(2, 0, 4), 1, Color(0, 0, 255), specular=500, reflective=0.3 ),    # Bleu
-    Sphere(Vector(-2, 0, 4), 1, Color(0, 255, 0), specular=10, reflective=0.4),   # Vert
-    Sphere(Vector(0, -5001, 0), 5000, Color(255, 255, 0), specular=1000, reflective=0.5), #Sphere jaune "sol"
-]
-
-lights = [
-    AmbientLight(0.2),
-    PointLight(0.6, Vector(2, 1, 0),),
-    DirectionalLight(0.2, Vector(1, 4, 4)),
-]
-
-
-#composants
-
-canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
-viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
-camera = Camera(Vector(0, 0, 0), viewport)
-tracer = Tracer(spheres,lights, BACKGROUND_COLOR)
-
-#boucle
-
-for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
-    for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
-
-        ray = camera.get_ray(canvas, x, y)
-        color = tracer.trace_ray(ray, t_min=1, t_max=float('inf'),depth=RECURSION_DEPTH)
-        canvas.put_pixel(x, y, color)
-
-
-#image ppm
-def save_ppm(canvas, filename="output.ppm"):
-    with open(filename, "w") as f:
+# Fonction pour sauvegarder en PPM sinon on réecrit le code deux fois
+def save_ppm(canvas: Canvas, path: str):
+    with open(path, "w") as f:
         f.write(f"P3\n{canvas.width} {canvas.height}\n255\n")
         for row in canvas.pixels:
-            for (r, g, b) in row:
+            for r, g, b in row:
                 f.write(f"{r} {g} {b} ")
             f.write("\n")
 
+gif_enabled, scenes = load_scene_file(SCENE_TO_RENDER)
 
-save_ppm(canvas)
+
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+if not gif_enabled:
+    scene = scenes[0]
+
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
+    camera = Camera(scene["camera"], viewport)
+    tracer = Tracer(scene["spheres"], scene["lights"])
+
+    # Boucle pour chaque pixel, c'est long mais nécessaire
+    for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
+        for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
+            ray = camera.get_ray(canvas, x, y)
+            color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
+            canvas.put_pixel(x, y, color)
+            # Debug pour voir si ça avance
+            if x % 100 == 0 and y == 0:
+                print(f"Rendering line {x}")
+
+    os.makedirs("outputs", exist_ok=True)
+    output_path = f"outputs/dated/output_{timestamp}.ppm"
+    save_ppm(canvas, output_path)
+
+    print(f"Rendered image → {output_path}")
+
+else:
+    frames_dir = f"frames/scene_{timestamp}"
+    os.makedirs(frames_dir, exist_ok=True)
+
+    frames = []
+
+    for i, scene in enumerate(scenes):
+        print(f"Rendering frame {i + 1}/{len(scenes)}")
+
+        canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+        viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
+        camera = Camera(scene["camera"], viewport)
+        tracer = Tracer(scene["spheres"], scene["lights"])
+
+        # Même boucle que pour l'image simple
+        for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
+            for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
+                ray = camera.get_ray(canvas, x, y)
+                color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
+                canvas.put_pixel(x, y, color)
+                # Petit debug pour ne pas s'ennuyer
+                if x % 200 == 0 and y == 0:
+                    print(f"Frame {i+1}: line {x}")
+
+        frame_path = f"{frames_dir}/frame_{i:03d}.ppm"
+        save_ppm(canvas, frame_path)
+
+        frames.append(imageio.imread(frame_path))
+
+    os.makedirs("outputs", exist_ok=True)
+    gif_path = f"outputs/dated/output_{timestamp}.gif"
+    imageio.mimsave(gif_path, frames, duration=0.08)
+
+    print(f"GIF rendered → {gif_path}")
+
