@@ -85,7 +85,7 @@ else:
                 color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
                 canvas.put_pixel(x, y, color)
                 # Petit debug pour ne pas s'ennuyer
-                if x % 200 == 0 and y == 0:
+                if x % 100 == 0 and y == 0:
                     print(f"Frame {i+1}: line {x}")
 
         frame_path = f"{frames_dir}/frame_{i:03d}.ppm"

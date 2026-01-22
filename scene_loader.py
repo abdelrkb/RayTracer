@@ -24,8 +24,14 @@ def load_scene_file(path: str):
                 continue
 
             if line.startswith("---"):
-                if current:
+                if current["camera"] is not None:
                     scenes.append(current)
+
+                current = {
+                    "camera": None,
+                    "lights": [],
+                    "spheres": []
+                }  # ← Accolade bien alignée !
                 continue
 
             tokens = line.split()
@@ -60,7 +66,7 @@ def load_scene_file(path: str):
                     )
                 )
 
-        if current:
+        if current["camera"] is not None:
             scenes.append(current)
 
     return gif, scenes
