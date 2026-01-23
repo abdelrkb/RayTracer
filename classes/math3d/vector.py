@@ -7,13 +7,9 @@ class Vector:
         self.x = x 
         self.y = y
         self.z = z
-    
-    def __repr__(self ):
-        return f"Vector({self.x }, {self.y }, {self.z})"
-
+            
     def add(self, other : Vector) -> Vector:
         return  Vector(self.x + other.x, self.y +  other.y, self.z  + other.z)
-
     def sub( self, other: Vector) -> Vector:
         return Vector(self.x -  other.x, self.y- other.y,  self.z - other.z)
 
