@@ -27,37 +27,20 @@ def load_scene_file(path: str):
                 scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": [] }
                 continue
 
-            tokens = ligne.split()
-            kind = tokens[0].lower()
+            objets_scenes = ligne.split()
+            types = objets_scenes[0].lower()
 
-            if kind == "camera":
-                scene_en_cours_de_rendu["camera"] = Vector(float(tokens[1]), float(tokens[2]), float(tokens[3]))
-
-            elif kind == "ambient":
-                scene_en_cours_de_rendu["lights"].append(AmbientLight(float(tokens[1])))
-
-            elif kind == "point":
-                scene_en_cours_de_rendu["lights"].append(
-                    PointLight(float(tokens[1]),
-                               Vector(float(tokens[2]), float(tokens[3]), float(tokens[4])))
-                )
-
-            elif kind == "directional":
-                scene_en_cours_de_rendu["lights"].append(
-                    DirectionalLight(float(tokens[1]),
-                                     Vector(float(tokens[2]), float(tokens[3]), float(tokens[4])))
-                )
-
-            elif kind == "sphere":
+            if types == "camera":
+                scene_en_cours_de_rendu["camera"] = Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3]))
+            elif types == "ambient":
+                scene_en_cours_de_rendu["lights"].append(AmbientLight(float(objets_scenes[1])))
+            elif types == "point":
+                scene_en_cours_de_rendu["lights"].append(PointLight(float(objets_scenes[1]),Vector(float(objets_scenes[2]), float(objets_scenes[3]), float(objets_scenes[4]))))
+            elif types == "directional":
+                scene_en_cours_de_rendu["lights"].append(DirectionalLight(float(objets_scenes[1]),Vector(float(objets_scenes[2]), float(objets_scenes[3]), float(objets_scenes[4]))))
+            elif types == "sphere":
                 scene_en_cours_de_rendu["spheres"].append(
-                    Sphere(
-                        Vector(float(tokens[1]), float(tokens[2]), float(tokens[3])),
-                        float(tokens[4]),
-                        Color(int(tokens[5]), int(tokens[6]), int(tokens[7])),
-                        specular=int(tokens[8]),
-                        reflective=float(tokens[9])
-                    )
-                )
+                    Sphere(Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3])),float(objets_scenes[4]),Color(int(objets_scenes[5]), int(objets_scenes[6]), int(objets_scenes[7])),specular=int(objets_scenes[8]),reflective=float(objets_scenes[9]) ) )
 
         if scene_en_cours_de_rendu["camera"] is not None:
             scenes.append(scene_en_cours_de_rendu)
