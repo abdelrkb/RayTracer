@@ -7,56 +7,49 @@ def load_scene_file(path: str):
     scenes = []
     gif = False
 
-    current = {
-        "camera": None,
-        "lights": [],
-        "spheres": []
+    scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": []
     }
 
     with open(path) as f:
-        for line in f:
-            line = line.strip()
-            if not line or line.startswith("#"):
+        for ligne in f:
+            ligne = ligne.strip()
+            if not ligne or ligne.startswith("#"):
                 continue
 
-            if line.startswith("GIF="):
-                gif = line.split("=")[1].upper() == "TRUE"
+            if ligne.startswith("GIF="):
+                gif = ligne.split("=")[1].upper() == "TRUE"
                 continue
 
-            if line.startswith("---"):
-                if current["camera"] is not None:
-                    scenes.append(current)
+            if ligne.startswith("---"):
+                if scene_en_cours_de_rendu["camera"] is not None:
+                    scenes.append(scene_en_cours_de_rendu)
 
-                current = {
-                    "camera": None,
-                    "lights": [],
-                    "spheres": []
-                }  # ← Accolade bien alignée !
+                scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": [] }
                 continue
 
-            tokens = line.split()
+            tokens = ligne.split()
             kind = tokens[0].lower()
 
             if kind == "camera":
-                current["camera"] = Vector(float(tokens[1]), float(tokens[2]), float(tokens[3]))
+                scene_en_cours_de_rendu["camera"] = Vector(float(tokens[1]), float(tokens[2]), float(tokens[3]))
 
             elif kind == "ambient":
-                current["lights"].append(AmbientLight(float(tokens[1])))
+                scene_en_cours_de_rendu["lights"].append(AmbientLight(float(tokens[1])))
 
             elif kind == "point":
-                current["lights"].append(
+                scene_en_cours_de_rendu["lights"].append(
                     PointLight(float(tokens[1]),
                                Vector(float(tokens[2]), float(tokens[3]), float(tokens[4])))
                 )
 
             elif kind == "directional":
-                current["lights"].append(
+                scene_en_cours_de_rendu["lights"].append(
                     DirectionalLight(float(tokens[1]),
                                      Vector(float(tokens[2]), float(tokens[3]), float(tokens[4])))
                 )
 
             elif kind == "sphere":
-                current["spheres"].append(
+                scene_en_cours_de_rendu["spheres"].append(
                     Sphere(
                         Vector(float(tokens[1]), float(tokens[2]), float(tokens[3])),
                         float(tokens[4]),
@@ -66,8 +59,8 @@ def load_scene_file(path: str):
                     )
                 )
 
-        if current["camera"] is not None:
-            scenes.append(current)
+        if scene_en_cours_de_rendu["camera"] is not None:
+            scenes.append(scene_en_cours_de_rendu)
 
     return gif, scenes
 
