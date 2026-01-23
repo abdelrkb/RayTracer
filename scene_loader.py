@@ -2,6 +2,7 @@ from classes.math3d.vector import Vector
 from classes.objects.sphere import Sphere
 from classes.objects.color import Color
 from classes.render.light import AmbientLight, PointLight, DirectionalLight
+import os
 
 def load_scene_file(path: str):
     scenes = []
@@ -12,23 +13,22 @@ def load_scene_file(path: str):
 
     with open(path) as f:
         for ligne in f:
-            ligne = ligne.strip()
-            if not ligne or ligne.startswith("#"):
+            ligne = ligne.strip() 
+            if not ligne or ligne.startswith("#"):  
                 continue
 
-            if ligne.startswith("GIF="):
-                gif = ligne.split("=")[1].upper() == "TRUE"
+            if ligne.startswith("GIF="): 
+                gif = ligne.split("=")[1].upper() == "TRUE"  
                 continue
 
-            if ligne.startswith("---"):
+            if ligne.startswith("---"):  
                 if scene_en_cours_de_rendu["camera"] is not None:
-                    scenes.append(scene_en_cours_de_rendu)
-
+                    scenes.append(scene_en_cours_de_rendu)  
                 scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": [] }
-                continue
+                continue 
 
             objets_scenes = ligne.split()
-            types = objets_scenes[0].lower()
+            types = objets_scenes[0].lower() 
 
             if types == "camera":
                 scene_en_cours_de_rendu["camera"] = Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3]))
@@ -42,28 +42,18 @@ def load_scene_file(path: str):
                 scene_en_cours_de_rendu["spheres"].append(
                     Sphere(Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3])),float(objets_scenes[4]),Color(int(objets_scenes[5]), int(objets_scenes[6]), int(objets_scenes[7])),specular=int(objets_scenes[8]),reflective=float(objets_scenes[9]) ) )
 
-        if scene_en_cours_de_rendu["camera"] is not None:
-            scenes.append(scene_en_cours_de_rendu)
-
+        if scene_en_cours_de_rendu["camera"] is not None: 
+            scenes.append(scene_en_cours_de_rendu) 
     return gif, scenes
 
-import os
-
-def choose_scene(scene_dir="scenes") -> str:
-    scenes = [
-        f for f in os.listdir(scene_dir)
-        if f.endswith(".txt")
-    ]
-
+def choose_scene(scene_dir="scenes") -> str: 
+    scenes = [ f for f in os.listdir(scene_dir) if f.endswith(".txt")]
     if not scenes:
         raise RuntimeError("No scene files found in 'scenes/'")
-
     print("\nAvailable scenes:\n")
     for i, scene in enumerate(scenes):
         print(f"  [{i}] {scene}")
-
     print()
-
     while True:
         try:
             choice = int(input("Select a scene number: "))
@@ -72,4 +62,4 @@ def choose_scene(scene_dir="scenes") -> str:
         except ValueError:
             pass
 
-        print("Invalid choice, try again.\n")
+        print("Invalidtry again.\n")
