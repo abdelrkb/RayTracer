@@ -8,9 +8,9 @@ class Camera:
         self.position = position
         self.viewport = viewport
 
-    def get_ray(self, canvas: Canvas, x: int, y: int) -> Ray:
-        V = self.viewport.canvas_to_viewport(canvas, x, y)
+    def recuperer_rayon(self, canvas: Canvas, x: int, y: int) -> Ray:
+        V = self.viewport.convertir_canvas_en_viewport(canvas, x, y)
 
-        direction = V.sub(self.position)
+        direction = V.soutrait(self.position)
 
         return Ray(self.position, direction)

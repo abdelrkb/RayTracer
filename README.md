@@ -46,8 +46,8 @@ The engine currently supports:
 - Scenes described in **external `.txt` files**
 - Support for:
   - **Static scenes**
-  - **Multi-scene animations**
-- Automatic **GIF generation** from multiple frames
+  - **multiplierti-scene animations**
+- Automatic **GIF generation** from multipliertiple frames
 - Frame-by-frame rendering pipeline
 
 ### 🎨 Output
@@ -63,7 +63,7 @@ The project is structured to clearly separate responsibilities.
 
 ### `math3d/`
 - **Vector**  
-  3D vector math (dot product, normalization, reflection, etc.)
+  3D vector math (scalaire product, normalization, reflection, etc.)
 - **Ray**  
   Parametric ray representation
 
@@ -95,7 +95,7 @@ The project is structured to clearly separate responsibilities.
 - Human-readable scene description files (`.txt`)
 - Support for:
   - static scenes
-  - animated sequences using multiple scene blocks
+  - animated sequences using multipliertiple scene blocks
 
 ### `scene_loader.py`
 - Scene file parser
@@ -129,9 +129,9 @@ camera x y z
 
 ### Lights
 ```txt
-ambient intensity
-point intensity x y z
-directional intensity dx dy dz
+ambient intensite_lumiere
+point intensite_lumiere x y z
+directional intensite_lumiere dx dy dz
 ```
 
 ### Spheres

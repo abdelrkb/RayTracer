@@ -13,12 +13,12 @@ class Sphere:
         self.reflective = reflective
 
 
-    def intersect_ray_sphere(self, ray: Ray) -> tuple[float,float]:
-        CO = ray.origin.sub(self.center)
+    def inter(self, ray: Ray) -> tuple[float,float]:
+        CO = ray.origin.soutrait(self.center)
 
-        a = ray.direction.dot(ray.direction)      
-        b = 2 * CO.dot(ray.direction)
-        c = CO.dot(CO) - self.radius * self.radius
+        a = ray.direction.scalaire(ray.direction)      
+        b = 2 * CO.scalaire(ray.direction)
+        c = CO.scalaire(CO) - self.radius * self.radius
 
         discriminant = b*b - 4*a*c
 

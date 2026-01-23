@@ -7,23 +7,23 @@ class Vector:
         self.x = x 
         self.y = y
         self.z = z
-            
-    def add(self, other : Vector) -> Vector:
+
+    def aditioner(self, other : Vector) -> Vector:
         return  Vector(self.x + other.x, self.y +  other.y, self.z  + other.z)
-    def sub( self, other: Vector) -> Vector:
+    def soutrait( self, other: Vector) -> Vector:
         return Vector(self.x -  other.x, self.y- other.y,  self.z - other.z)
 
-    def mul(self, k: float) -> Vector:
+    def multiplier(self, k: float) -> Vector:
         return Vector(self.x  * k,  self.y * k,  self.z * k)
 
-    def dot(self, other) -> float:
+    def scalaire(self, other) -> float:
         return self.x * other.x +  self.y * other.y + self.z *other.z
 
-    def length(self) -> float:
-        return math.sqrt(self.dot(self))  
+    def longueure(self) -> float:
+        return math.sqrt(self.scalaire(self))  
 
-    def normalize(self) -> Vector: 
-        l = self.length() 
+    def normaliser_le_vecteur(self) -> Vector: 
+        l = self.longueure() 
         if l == 0: 
             return Vector(0, 0, 0) 
         return Vector(self.x / l, self.y / l, self.z / l) 

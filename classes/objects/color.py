@@ -6,15 +6,15 @@ class Color:
         self.g = g
         self.b = b
 
-    def mul(self, k: float) -> Color:    
+    def multiplier(self, k: float) -> Color:    
         return Color(self.r * k, self.g * k, self.b * k)            
 
-    def add(self, other) -> Color:    
+    def aditioner(self, other) -> Color:    
         return Color(self.r + other.r, self.g + other.g, self.b + other.b)          
 
-    def clamp(self):     
+    def limite_value(self):     
         return Color(min(255, max(0, int(self.r))), min(255, max(0, int(self.g))), min(255, max(0, int(self.b))))           
 
-    def to_rgb(self):           
-        c = self.clamp()        
+    def en_rgb(self):           
+        c = self.limite_value()        
         return (c.r, c.g, c.b)          

@@ -2,9 +2,9 @@ GIF = FALSE
 
 #convention
 #sphere x y z radius R G B specular reflective
-#point intensity x y z
-#directional intensity dx dy dz
-#ambient intensity
+#point intensite_lumiere x y z
+#directional intensite_lumiere dx dy dz
+#ambient intensite_lumiere
 
 # Camera
 camera 0 0 0

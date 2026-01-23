@@ -51,9 +51,9 @@ if not gif_enabled:
     # Boucle pour chaque pixel, c'est long mais nécessaire
     for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2): # x va de -400 à 399 (400 valeurs)
         for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2): # y va de -300 à 299 (300 valeurs)
-            ray = camera.get_ray(canvas, x, y)
+            ray = camera.recuperer_rayon(canvas, x, y)
             color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
-            canvas.put_pixel(x, y, color)
+            canvas.colorier(x, y, color)
             # Debug pour voir si ça avance
             if x % 100 == 0 and y == 0:
                 print(f"Rendering line {x}")
@@ -81,9 +81,9 @@ else:
         # Même boucle que pour l'image simple
         for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
             for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
-                ray = camera.get_ray(canvas, x, y)
+                ray = camera.recuperer_rayon(canvas, x, y)
                 color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
-                canvas.put_pixel(x, y, color)
+                canvas.colorier(x, y, color)
                 # Petit debug pour ne pas s'ennuyer
                 if x % 100 == 0 and y == 0:
                     print(f"Frame {i+1}: line {x}")
