@@ -10,7 +10,7 @@ GIF = FALSE
 camera 0 0 0
 
 # Lights
-ambient 0.2
+#ambient 0.2
 point 0.6 2 2 0
 directional 0.2 1 4 4
 
