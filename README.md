@@ -3,13 +3,7 @@
 This project is a **fully educational ray tracing engine written in Python**, inspired by  
 **Gabriel Gambetta – _Computer Graphics from Scratch_**.
 
-The goal is to **build a ray tracer step by step**, focusing on:
-- mathematical correctness
-- clean architecture
-- readability
-- extensibility
-
-This is **not** a real-time renderer and **not optimized for performance** on purpose.
+The goal is to **build a ray tracer step by step**.
 
 ---
 
@@ -34,68 +28,59 @@ The engine currently supports:
 - Specular highlights (Phong model)
 
 ### 🌑 Shadows
-- Hard shadows using shadow rays
-- Proper handling of self-shadowing using ε offset
+- Shadows 
 
 ### 🪞 Reflections
 - Recursive reflections
-- Per-object reflectivity
 - Configurable recursion depth
 
 ### 🎬 Scenes & Animation
-- Scenes described in **external `.txt` files**
+- Scenes described in txt files
 - Support for:
-  - **Static scenes**
-  - **multiplierti-scene animations**
-- Automatic **GIF generation** from multipliertiple frames
-- Frame-by-frame rendering pipeline
+  - Static scene
+  - Multiple scene for animated gif
 
 ### 🎨 Output
-- PPM image output
-- Optional animated GIF output
-- Timestamped outputs
-
+- PPPM Ilage
+- Animated gif
 ---
 
 ## 🧠 Architecture Overview
 
-The project is structured to clearly separate responsibilities.
+Structured in seperated responsabilities
 
 ### `math3d/`
 - **Vector**  
-  3D vector math (scalaire product, normalization, reflection, etc.)
+  3D vector math (scalaire product, normalization, etc.)
 - **Ray**  
   Parametric ray representation
 
 ### `objects/`
 - **Sphere**  
-  Renderable primitive with material properties
+  Principal objects in raytracing
 - **Color**  
-  RGB color abstraction with clamping and scaling
+  RGB color object
 
 ### `render/`
 - **Canvas**  
-  Pixel buffer abstraction
+  Canvas where we draw the scene
 - **Viewport**  
-  Projection plane definition
+  Projection of what we saw through the canvas
 - **Camera**  
-  Ray generation logic
+  Ray generation logic from the camera
 - **Light**
   - AmbientLight
   - PointLight
   - DirectionalLight
 - **Tracer**  
-  Core ray tracing engine:
+  Core engine:
   - intersections
   - lighting
   - shadows
   - reflections
 
 ### `scenes/`
-- Human-readable scene description files (`.txt`)
-- Support for:
-  - static scenes
-  - animated sequences using multipliertiple scene blocks
+-  scene description files (`.txt`)
 
 ### `scene_loader.py`
 - Scene file parser
@@ -142,21 +127,12 @@ sphere x y z radius R G B specular reflective
 ## 🚀 How to Run
 
 ```bash
+#create a venv env 
+python -m venv venv
+source venv/bin/activate
+pip install - requirements.txt
 python main.py
 ```
-
-## ⏱️ Performance Notes
-
-- This renderer is CPU-only and written in pure Python
-
-- Rendering may take tens of seconds depending on:
-
-    - resolution
-    - number of spheres
-    - reflection depth
-    - number of scenes (GIF)
-
-This is expected behavior for an educational ray tracer.
 
 ## 📖 Reference
 - Computer Graphics from Scratch — Gabriel Gambetta
