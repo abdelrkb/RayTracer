@@ -5,19 +5,7 @@ from classes.objects.color import Color
 import math
 
 class Sphere:
-    """
-    Represents a sphere in the scene.
-    """
     def __init__(self, center : Vector, radius : float, color : Color , specular= -1, reflective=0.0):
-        """
-        Create a sphere.
-
-        Args:
-            center (Vector): center of the sphere
-            radius (float): sphere radius
-            color (Color) : RGB color (0–255)
-            specular (int): specular exponent -1 means matte 
-        """
         self.center = center
         self.radius = radius
         self.color = color
@@ -26,24 +14,6 @@ class Sphere:
 
 
     def intersect_ray_sphere(self, ray: Ray) -> tuple[float,float]:
-        """
-        Compute the intersection of a ray with this sphere.
-
-        Solves the quadratic equation derived from:
-            |O + tD - C|² = r²
-
-        with:
-            O -> ray origin
-            D -> ray direction
-            C -> sphere center
-            r -> sphere radius
-
-        Args:
-            ray (Ray): ray to test
-
-        Returns:
-            tuple[float, float] : The two intersection distances. If no intersection returns (inf,inf)
-        """
         CO = ray.origin.sub(self.center)
 
         a = ray.direction.dot(ray.direction)
