@@ -98,7 +98,7 @@ def compute_lighting(P: Vector, N: Vector, V : Vector, s : int, lights : list[Li
                 L= light.direction
                 t_max= float('inf')
 
-            shadow, _ = tracer.closest_intersection(P,L,0.001,t_max)
+            shadow, _ = tracer.closest_intersection(P,L,1e-8,t_max)
             if shadow:
                 continue
             

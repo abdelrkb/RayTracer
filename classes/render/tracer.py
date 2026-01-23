@@ -86,7 +86,7 @@ class Tracer:
 
         reflected_direction = N.mul(2 * N.dot(V)).sub(V)
         reflected_ray = Ray(P, reflected_direction)
-        reflected_color = Color(*self.trace_ray(reflected_ray, 0.001, float('inf'), depth - 1))
+        reflected_color = Color(*self.trace_ray(reflected_ray, 1e-8, float('inf'), depth - 1))
 
         color = color.mul(1 - r).add(reflected_color.mul(r))
         return color.to_rgb()
