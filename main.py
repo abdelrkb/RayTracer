@@ -1,83 +1,80 @@
 import os
 import math
 import imageio.v2 as imageio
-from datetime import datetime
 from classes.render.canvas import Canvas
 from classes.render.viewport import Viewport
 from classes.render.camera import Camera
 from classes.render.tracer import Tracer
-from scene_loader import load_scene_file, choose_scene
+from scene_loader import charger_scene, choisir_scene
 
-CANVAS_WIDTH = 800
-CANVAS_HEIGHT = 600
-VIEWPORT_WIDTH = 1
-VIEWPORT_HEIGHT = 1
+# Config de base
+LARGEUR_CANVAS = 800
+HAUTEUR_CANVAS = 600
+LARGEUR_VIEWPORT = 1
+HAUTEUR_VIEWPORT = 1
 PROJECTION_PLANE_D = 1
-RECURSION_DEPTH = 3
+PROFONDEUR_RECURSION = 3
 
-SCENE_TO_RENDER = choose_scene("scenes")
+SCENE_A_RENDER = choisir_scene("scenes")
 
-def save_ppm(canvas: Canvas, path: str ):
-    with open(path, "w") as f:
+def sauvegarder_ppm(canvas, chemin):
+    with open(chemin, "w") as f:
         f.write(f"P3\n{canvas.width} {canvas.height}\n255\n")
         for col in canvas.pixels:
-            for r, g, b in col: 
+            for r, g, b in col:
                 f.write(f"{r} {g} {b} ")
             f.write("\n")
 
-gif_enabled, scenes = load_scene_file(SCENE_TO_RENDER)
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+gif_actif, scenes = charger_scene(SCENE_A_RENDER)
 
-if not gif_enabled: 
-    scene = scenes[0] 
+nom_scene = os.path.splitext(os.path.basename(SCENE_A_RENDER))[0]
 
-    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT) 
-    viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
-    camera = Camera(scene["camera"], viewport) 
-    tracer = Tracer(scene["spheres"], scene["lights"]) 
+if not gif_actif:
+    scene = scenes[0]
 
-    for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):  
-        for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2): 
-            ray = camera.recuperer_rayon(canvas, x, y) 
-            color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
-            canvas.colorier(x, y, color)
-            if x % 100 == 0 and y == 0:
-                print(f"Rendering line {x}")
+    print("Image entrain d'être  générée...")
 
-    os.makedirs("outputs", exist_ok=True) 
-    dir_output = f"outputs/dated/output_{timestamp}.ppm"
-    save_ppm(canvas, dir_output) 
+    canvas = Canvas(LARGEUR_CANVAS, HAUTEUR_CANVAS)
+    viewport = Viewport(LARGEUR_VIEWPORT, HAUTEUR_VIEWPORT, PROJECTION_PLANE_D)
+    camera = Camera(scene["camera"], viewport)
+    tracer = Tracer(scene["spheres"], scene["lights"])
 
-    print(f"Image generated in directory : {dir_output}")
+    for x in range(-LARGEUR_CANVAS // 2, LARGEUR_CANVAS // 2):
+        for y in range(-HAUTEUR_CANVAS // 2, HAUTEUR_CANVAS // 2):
+            rayon = camera.recuperer_rayon(canvas, x, y)
+            couleur = tracer.trace_ray(rayon, 1, float("inf"), PROFONDEUR_RECURSION)
+            canvas.colorier(x, y, couleur)
+
+    os.makedirs("outputs", exist_ok=True)
+    chemin_sortie = f"outputs/{nom_scene}.ppm"
+    sauvegarder_ppm(canvas, chemin_sortie)
+    print(f"Image générée: {chemin_sortie}")
 
 else:
-    dir_frames = f"frames/scene_{timestamp}"
-    os.makedirs(dir_frames, exist_ok=True)
+    print("GIF entrain d'être  généré...")
 
-    frames =[]
+    os.makedirs("images", exist_ok=True)
+    images  = []
 
-    for i,scene in enumerate(scenes):
-        print(f"Rendering the frame {i+1}/ {len(scenes)}")
+    for i, scene in enumerate(scenes):
+        print(f"  Image  {i+1}/{len(scenes)}")
 
-        canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
-        viewport = Viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, PROJECTION_PLANE_D)
+        canvas = Canvas(LARGEUR_CANVAS, HAUTEUR_CANVAS)
+        viewport = Viewport(LARGEUR_VIEWPORT, HAUTEUR_VIEWPORT, PROJECTION_PLANE_D)
         camera = Camera(scene["camera"], viewport)
-        tracer = Tracer(scene["spheres"],scene["lights"])
-        for x in range(-CANVAS_WIDTH // 2, CANVAS_WIDTH // 2):
-            for y in range(-CANVAS_HEIGHT // 2, CANVAS_HEIGHT // 2):
-                ray = camera.recuperer_rayon(canvas, x, y)
-                color = tracer.trace_ray(ray, 1, float("inf"), RECURSION_DEPTH)
-                canvas.colorier(x, y, color)
-                if x % 100 == 0 and y == 0:
-                    print(f"Frame {i+1}: line {x}")
+        tracer = Tracer(scene["spheres"], scene["lights"])
 
-        frame_path = f"{dir_frames}/frame_{i:03d}.ppm"
-        save_ppm(canvas, frame_path)
+        for x in range(-LARGEUR_CANVAS // 2, LARGEUR_CANVAS // 2):
+            for y in range(-HAUTEUR_CANVAS // 2, HAUTEUR_CANVAS // 2):
+                rayon = camera.recuperer_rayon(canvas, x, y)
+                couleur = tracer.trace_ray(rayon, 1, float("inf"), PROFONDEUR_RECURSION)
+                canvas.colorier(x, y, couleur)
 
-        frames.append(imageio.imread(frame_path))
+        chemin_image  = f"images/{nom_scene}_image_{i:03d}.ppm"
+        sauvegarder_ppm(canvas, chemin_image)
+        images.append(imageio.imread(chemin_image))
+
     os.makedirs("outputs", exist_ok=True)
-    gif_path = f"outputs/dated/output_{timestamp}.gif"
-    imageio.mimsave(gif_path, frames, duration=0.08)
-
-    print(f"GIF was render in the directory : {gif_path}")
-
+    chemin_sortie = f"outputs/{nom_scene}.gif"
+    imageio.mimsave(chemin_sortie, images, duration=0.08)
+    print(f"GIF  créé: {chemin_sortie}")

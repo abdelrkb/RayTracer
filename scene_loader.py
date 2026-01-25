@@ -4,62 +4,78 @@ from classes.objects.color import Color
 from classes.render.light import AmbientLight, PointLight, DirectionalLight
 import os
 
-def load_scene_file(path: str):
+def charger_scene(chemin):
     scenes = []
     gif = False
 
-    scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": []
+    scene_actuelle = {
+        "camera": None,
+        "lights": [],
+        "spheres": []
     }
 
-    with open(path) as f:
+    with open(chemin) as f:
         for ligne in f:
-            ligne = ligne.strip() 
-            if not ligne or ligne.startswith("#"):  
+            ligne = ligne.strip()
+            if not ligne or ligne.startswith("#"):
                 continue
 
-            if ligne.startswith("GIF="): 
-                gif = ligne.split("=")[1].upper() == "TRUE"  
+            if ligne.startswith("GIF="):
+                gif = ligne.split("=")[1].upper() == "TRUE"
                 continue
 
-            if ligne.startswith("---"):  
-                if scene_en_cours_de_rendu["camera"] is not None:
-                    scenes.append(scene_en_cours_de_rendu)  
-                scene_en_cours_de_rendu = {"camera": None,"lights": [],"spheres": [] }
-                continue 
+            if ligne.startswith("---"):
+                if scene_actuelle["camera"] is not None:
+                    scenes.append(scene_actuelle)
+                scene_actuelle = {"camera": None, "lights": [], "spheres": []}
+                continue
 
-            objets_scenes = ligne.split()
-            types = objets_scenes[0].lower() 
+            elements = ligne.split()
+            type_objet = elements[0].lower()
 
-            if types == "camera":
-                scene_en_cours_de_rendu["camera"] = Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3]))
-            elif types == "ambient":
-                scene_en_cours_de_rendu["lights"].append(AmbientLight(float(objets_scenes[1])))
-            elif types == "point":
-                scene_en_cours_de_rendu["lights"].append(PointLight(float(objets_scenes[1]),Vector(float(objets_scenes[2]), float(objets_scenes[3]), float(objets_scenes[4]))))
-            elif types == "directional":
-                scene_en_cours_de_rendu["lights"].append(DirectionalLight(float(objets_scenes[1]),Vector(float(objets_scenes[2]), float(objets_scenes[3]), float(objets_scenes[4]))))
-            elif types == "sphere":
-                scene_en_cours_de_rendu["spheres"].append(
-                    Sphere(Vector(float(objets_scenes[1]), float(objets_scenes[2]), float(objets_scenes[3])),float(objets_scenes[4]),Color(int(objets_scenes[5]), int(objets_scenes[6]), int(objets_scenes[7])),specular=int(objets_scenes[8]),reflective=float(objets_scenes[9]) ) )
+            if type_objet == "camera":
+                scene_actuelle["camera"] = Vector(float(elements[1]), float(elements[2]), float(elements[3]))
+            elif type_objet == "ambient":
+                scene_actuelle["lights"].append(AmbientLight(float(elements[1])))
+            elif type_objet == "point":
+                scene_actuelle["lights"].append(
+                    PointLight(float(elements[1]), Vector(float(elements[2]), float(elements[3]), float(elements[4])))
+                )
+            elif type_objet == "directional":
+                scene_actuelle["lights"].append(
+                    DirectionalLight(float(elements[1]), Vector(float(elements[2]), float(elements[3]), float(elements[4])))
+                )
+            elif type_objet == "sphere":
+                scene_actuelle["spheres"].append(
+                    Sphere(
+                        Vector(float(elements[1]), float(elements[2]), float(elements[3])),
+                        float(elements[4]),
+                        Color(int(elements[5]), int(elements[6]), int(elements[7])),
+                        specular=int(elements[8]),
+                        reflective=float(elements[9])
+                    )
+                )
 
-        if scene_en_cours_de_rendu["camera"] is not None: 
-            scenes.append(scene_en_cours_de_rendu) 
+        if scene_actuelle["camera"] is not None:
+            scenes.append(scene_actuelle)
+
     return gif, scenes
 
-def choose_scene(scene_dir="scenes") -> str: 
-    scenes = [ f for f in os.listdir(scene_dir) if f.endswith(".txt")]
+def choisir_scene(dossier_scenes="scenes"):
+    scenes = [f for f in os.listdir(dossier_scenes) if f.endswith(".txt")]
     if not scenes:
-        raise RuntimeError("No scene files found in 'scenes/'")
-    print("\nAvailable scenes:\n")
+        raise RuntimeError("Aucune scene trouvée  dans 'scenes/'")
+
+    print("\nScenes  dispos:\n")
     for i, scene in enumerate(scenes):
-        print(f"  [{i}] {scene}")
+        print(f"  [{i}]  {scene}")
     print()
+
     while True:
         try:
-            choice = int(input("Select a scene number: "))
-            if 0 <= choice < len(scenes):
-                return os.path.join(scene_dir, scenes[choice])
+            choix = int(input("Choisis  une scene: "))
+            if 0 <= choix < len(scenes):
+                return os.path.join(dossier_scenes, scenes[choix])
         except ValueError:
             pass
-
-        print("Invalidtry again.\n")
+        print("Invalide.\n")

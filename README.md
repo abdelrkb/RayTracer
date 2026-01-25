@@ -62,7 +62,7 @@ GIF = FALSE
 camera x y z
 ```
 
-## 🚀 Comment lancer
+## Comment lancer
 
 ```bash
 #create a venv env 
@@ -72,9 +72,15 @@ pip install - requirements.txt
 python main.py
 ```
 
-## 📖 Reference
+## References
 - Computer Graphics from Scratch — Gabriel Gambetta
 https://gabrielgambetta.com/computer-graphics-from-scratch/
 
-## 👤 Auteurs
-Made by REKKAB Abdelnour and ZEROUAL Ilyes.
+##  Auteurs
+Fait par  REKKAB Abdelnour et ZEROUAL Ilyes.
+
+##  Dependances
+
+ImageIO==2.37.2
+numpy==2.4.1
+pillow==12.1.0
