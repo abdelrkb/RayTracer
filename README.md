@@ -1,130 +1,68 @@
-# 🟢 RayTracer — Educational Ray Tracing Engine (Python)
+# RayTracer
 
-This project is a **fully educational ray tracing engine written in Python**, inspired by  
-**Gabriel Gambetta – _Computer Graphics from Scratch_**.
+Projet RayTracer inspiré par le livre de Gabriel Gambetta
 
-The goal is to **build a ray tracer step by step**.
+## Architecture
 
----
-
-## ✨ Features
-
-The engine currently supports:
-
-### 🧩 Geometry
-- Spheres as geometric primitives
-- Infinite planes approximated using large spheres (floor, walls, ceiling)
-
-### 📷 Camera & Projection
-- Perspective camera
-- Viewport-based ray generation
-- Configurable canvas resolution
-
-### 💡 Lighting
-- Ambient light
-- Point lights
-- Directional lights
-- Diffuse (Lambertian) lighting
-- Specular highlights (Phong model)
-
-### 🌑 Shadows
-- Shadows 
-
-### 🪞 Reflections
-- Recursive reflections
-- Configurable recursion depth
-
-### 🎬 Scenes & Animation
-- Scenes described in txt files
-- Support for:
-  - Static scene
-  - Multiple scene for animated gif
-
-### 🎨 Output
-- PPPM Ilage
-- Animated gif
----
-
-## 🧠 Architecture Overview
-
-Structured in seperated responsabilities
+Architecture modulaire.
 
 ### `math3d/`
-- **Vector**  
-  3D vector math (scalaire product, normalization, etc.)
-- **Ray**  
-  Parametric ray representation
+- Vector 
+  Vecteur 3D multiplication, scalaire ect...
+- Ray  
+  Representation de Ray
 
 ### `objects/`
-- **Sphere**  
-  Principal objects in raytracing
-- **Color**  
-  RGB color object
+- Sphere  
+  Objets raytracing
+- Color 
+  Couleur RGB
 
 ### `render/`
-- **Canvas**  
-  Canvas where we draw the scene
-- **Viewport**  
-  Projection of what we saw through the canvas
-- **Camera**  
-  Ray generation logic from the camera
-- **Light**
+- Canvas
+  Canvas ou l'on dessine la scene
+- Viewport
+  Projection de ce que l'on voit
+- Camera
+  Position de la camera
+- Light
   - AmbientLight
   - PointLight
   - DirectionalLight
-- **Tracer**  
-  Core engine:
-  - intersections
-  - lighting
-  - shadows
-  - reflections
+- Tracer
+  Algo principal gerant:
+  - les intersections
+  - les lumieres
+  - les ombres
+  - les reflexions
 
 ### `scenes/`
--  scene description files (`.txt`)
+-  scene décris en txt
 
 ### `scene_loader.py`
-- Scene file parser
-- Handles:
-  - camera
-  - lights
-  - spheres
-  - GIF/static mode
+- Charge les scenes
 
----
 
-## 📝 Scene File Format (`.txt`)
+## 📝 Scenes
 
-Scenes are defined in plain text.
+On decrit les scene en txt
 
-### Global flags
+Conventions  
 ```txt
-GIF=TRUE
-SCENES=5
-```
+GIF = FALSE
 
-### Scene separator
-```txt
---- SCENE 0 ---
-```
+#sphere x y z radius R G B specular reflective
 
-### Camera
-```txt
+#lights : 
+#point intensity x y z
+#directional intensity dx dy dz
+#ambient intensity
+
+# Camera
 camera x y z
 ```
 
-### Lights
-```txt
-ambient intensite_lumiere
-point intensite_lumiere x y z
-directional intensite_lumiere dx dy dz
-```
-
-### Spheres
-```txt
-sphere x y z radius R G B specular reflective
-```
-
-## 🚀 How to Run
+## 🚀 Comment lancer
 
 ```bash
 #create a venv env 
@@ -138,5 +76,5 @@ python main.py
 - Computer Graphics from Scratch — Gabriel Gambetta
 https://gabrielgambetta.com/computer-graphics-from-scratch/
 
-## 👤 Author
+## 👤 Auteurs
 Made by REKKAB Abdelnour and ZEROUAL Ilyes.
